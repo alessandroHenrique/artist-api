@@ -1,8 +1,8 @@
 import requests
+from unidecode import unidecode
 
 
 BASE_URL = "https://api.genius.com"
-
 
 class Genius:
 
@@ -22,14 +22,27 @@ class Genius:
 
         return response.json()
 
+
+    def get_artist_id_by_name(self, artist_name):
+        artist_name = self.clean_name(artist_name)
+        data = self._get("search", {'q': artist_name})
+
+        artist_id = None
+        for hit in data["response"]["hits"]:
+            hit_name = self.clean_name(hit["result"]["primary_artist"]["name"])
+            if hit_name == artist_name:
+                artist_id = hit["result"]["primary_artist"]["id"]
+                break
+
+        return artist_id
+
     def get_artist_songs(self, artist_id):
         current_page = 1
         next_page = True
         songs = []
 
         while len(songs) < 10 and next_page:
-
-            path = "artists/{}/songs/".format(artist_id)
+            path = f"artists/{artist_id}/songs/"
             params = {'page': current_page, 'sort': 'popularity'}
             data = self._get(path=path, params=params)
 
@@ -44,3 +57,6 @@ class Genius:
         songs = [song['title'] for song in songs
                 if song["primary_artist"]["id"] == artist_id]
         return songs
+
+    def clean_name(self, artist_name):
+        return unidecode(artist_name.lower().capitalize())
