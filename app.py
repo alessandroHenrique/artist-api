@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from .resources.artist import Artist
-import os
+from decouple import config
 
 
 def create_app(test_config=None):
@@ -10,7 +10,7 @@ def create_app(test_config=None):
 
     if not test_config:
         app.config.from_mapping(
-            SECRET_KEY=os.environ.get("SECRET_KEY")
+            SECRET_KEY=config("SECRET_KEY")
         )
     else:
         app.config.from_mapping(test_config)
