@@ -60,5 +60,3 @@ class Artist:
             }
         )
         return response.get('Item', None)
-
-print(AWS_ACCESS_KEY_ID)
