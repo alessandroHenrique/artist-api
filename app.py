@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from .resources.artist import Artist
 import os
 
 
@@ -13,5 +14,7 @@ def create_app(test_config=None):
         )
     else:
         app.config.from_mapping(test_config)
+
+    api.add_resource(Artist, '/artist')
 
     return app
