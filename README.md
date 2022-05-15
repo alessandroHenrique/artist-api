@@ -62,3 +62,20 @@ Exemplo de response:
     ]
 }
 ```
+
+# /api/create-table
+Esse recurso diz respeito a tabela Artist do dynamo.
+
+## GET
+
+Exemplo de requisição:
+- http://0.0.0.0/api/create-table
+
+Exemplo de response:
++ Response 200
+
+```
+{
+    "message": "Table created"
+}
+```
