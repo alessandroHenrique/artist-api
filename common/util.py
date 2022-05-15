@@ -42,21 +42,23 @@ class Genius:
         songs = []
 
         while len(songs) < 10 and next_page:
-            path = f"artists/{artist_id}/songs/"
+
+            path = "artists/{}/songs/".format(artist_id)
             params = {'page': current_page, 'sort': 'popularity'}
             data = self._get(path=path, params=params)
 
             page_songs = data['response']['songs']
 
             if page_songs:
-                songs += page_songs
+                singer_songs = [song['title'] for song in page_songs
+                if song["primary_artist"]["id"] == artist_id]
+
+                songs += singer_songs
                 current_page += 1
             else:
                 next_page = False
 
-        songs = [song['title'] for song in songs
-                if song["primary_artist"]["id"] == artist_id]
-        return songs
+        return songs[:10]
 
     def clean_name(self, artist_name):
-        return unidecode(artist_name.lower().capitalize())
+        return unidecode(artist_name.strip().lower().title())
