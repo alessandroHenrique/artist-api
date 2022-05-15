@@ -3,6 +3,8 @@
 
 API que consome dados da [Genius](https://docs.genius.com/) que baseado num artista, pega suas 10 músicas mais populares utilizando Flask rest.
 
+Você pode testar a API em produção na AWS nesse link: http://ec2-3-87-143-224.compute-1.amazonaws.com utilizando os endpoints listados na seção de endpoits.
+
 ## Rodando o projeto localmente
 As seguintes instruções vão lhe guiar para instalar o projeto e suas dependências.
 
