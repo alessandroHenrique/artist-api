@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_cors import CORS
 from resources.artist import Artist
+from resources.dynamo import Dynamo
 from decouple import config
 
 
@@ -18,6 +19,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     api.add_resource(Artist, '/artist')
+    api.add_resource(Dynamo, '/create-table')
 
     return app
 
