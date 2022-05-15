@@ -1,11 +1,13 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Api
-from .resources.artist import Artist
+from flask_cors import CORS
+from resources.artist import Artist
 from decouple import config
 
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     api = Api(app)
 
     if not test_config:
@@ -18,3 +20,7 @@ def create_app(test_config=None):
     api.add_resource(Artist, '/artist')
 
     return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(host="0.0.0.0", port=80)
