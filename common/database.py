@@ -1,5 +1,4 @@
 import uuid
-import os
 from boto3 import resource
 from decouple import config
 
@@ -9,7 +8,7 @@ AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 REGION_NAME = config("REGION_NAME")
 
 
-class Artist:
+class ArtistDB:
     def __init__(self):
         self.resource = resource(
             'dynamodb',
@@ -20,7 +19,7 @@ class Artist:
         self.artist_table = self.resource.Table('Artist')
 
     def create_table_artist(self):   
-        table = resource.create_table(
+        table = self.resource.create_table(
             TableName = 'Artist',
             KeySchema = [
                 {
@@ -60,3 +59,20 @@ class Artist:
             }
         )
         return response.get('Item', None)
+
+    def update_artist_cache(self, name, cache):
+        response = self.artist_table.update_item(
+            Key = {
+                'name': name
+            },
+            AttributeUpdates={
+                'cache': {
+                    'Value'  : cache,
+                    'Action' : 'PUT'
+                }
+            },
+
+            ReturnValues = "UPDATED_NEW"  # returns the new updated values
+        )
+
+        return response
