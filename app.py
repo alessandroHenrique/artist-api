@@ -18,8 +18,8 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(test_config)
 
-    api.add_resource(Artist, '/artist')
-    api.add_resource(Dynamo, '/create-table')
+    api.add_resource(Artist, '/api/artist')
+    api.add_resource(Dynamo, '/api/create-table')
 
     return app
 
